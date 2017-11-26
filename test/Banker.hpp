@@ -13,7 +13,10 @@
 #include <iostream>
 using namespace std;
 
-#define NUMBER_OF_RESOURCES 3
+
+#define Customers 5
+#define Resources 3
+
 
 class banker{
     
@@ -22,9 +25,23 @@ public:
     banker();
     void display_data();
     bool is_it_safe();
+    void Update_data();
+    
     
 private:
-    int available[NUMBER_OF_RESOURCES] = {10,5,7};
+    int available[Resources] = {10,5,7};        //Available Resources
+    int max[Customers][Resources] = {{7, 5, 3},
+        {3, 2, 2},
+        {9, 0, 2},
+        {2, 2, 2},
+        {4, 3, 3}};  //Max
+    int alloc [Customers][Resources] = {{0, 1, 0},
+        {2, 0, 0},
+        {3, 0, 2},
+        {2, 1, 1},
+        {0, 0, 2}};  //Alloc
+    
+    int needed [Customers][Resources];
     
 protected:
     
