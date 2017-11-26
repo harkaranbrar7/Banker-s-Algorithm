@@ -29,8 +29,14 @@ public:
     void display_data();
     bool is_it_safe();
     void Update_data();
+    int requested(int, int[]); //request resources
+    int released(int, int[]);  //released resources
     
+    void set_request_resource(int);
+    void set_release_resource(int);
+    int* rel(int);
     
+
 private:
     int available[Resources] = {10,5,7};        //Available Resources
     int max[Customers][Resources] = {{7, 5, 3},
@@ -52,4 +58,43 @@ protected:
     
 };
 
+
+
+struct request{
+public:
+    int Customer_id;
+    int request[3];
+    int rel[3;
+    
+    
+};
+
 #endif /* Banker_hpp */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
