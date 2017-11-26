@@ -64,7 +64,7 @@ struct request{
 public:
     int Customer_id;
     int request[3];
-    int rel[3;
+    int rel[3];
     
     
 };
