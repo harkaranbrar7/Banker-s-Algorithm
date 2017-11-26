@@ -11,6 +11,9 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <string>
+#include <pthread.h>
+#include <sstream>
 using namespace std;
 
 

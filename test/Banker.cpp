@@ -21,13 +21,16 @@ banker::banker(){
 }
 
 void banker::Update_data(){
-    // Getting the neededed matrix
     
+    
+    // calculating the needed matrix
+    // max - alloc = needed
     for(int i=0;i<Customers;i++)
         for(int j=0;j<Resources;j++)
             needed[i][j]=max[i][j]-alloc[i][j];
     
-    //Updating the available list
+    // available list updating
+    // available - sum of alloc
     for(int i=0;i<Resources;i++)
         for(int j=0;j<Customers;j++)
             available[i]=available[i]-alloc[j][i];
@@ -37,38 +40,40 @@ void banker::Update_data(){
 
 void banker::display_data()
 {
+    int i,j;
+    
     cout<<"\n\n";
     cout<<"------Maximum------";
-    for(int i=0;i<Customers;i++)
+    for(i=0;i<Customers;i++)
     {
         cout<<"\n";
-        for(int j=0;j<Resources;j++)
+        for(j=0;j<Resources;j++)
             cout<<"   |"<<max[i][j]<<"|";
     }
     
     cout<<"\n\n";
     cout<<"------Allocated------";
-    for(int i=0;i<Customers;i++)
+    for(i=0;i<Customers;i++)
     {
         cout<<"\n";
-        for(int j=0;j<Resources;j++)
+        for(j=0;j<Resources;j++)
             cout<<"   |"<<alloc[i][j]<<"|";
     }
     
     
     cout<<"\n\n";
     cout<<"------Needed------";
-    for(int i=0;i<Customers;i++)
+    for(i=0;i<Customers;i++)
     {
         cout<<"\n";
-        for(int j=0;j<Resources;j++)
+        for(j=0;j<Resources;j++)
             cout<<"   |"<<needed[i][j]<<"|";
     }
     
     cout<<"\n\n";
     cout<<"------Available------\n";
     
-    for(int i=0;i<Resources;i++)
+    for(i=0;i<Resources;i++)
         cout<<"   |"<<available[i]<<"|";
     
     cout<<"\n\n";
@@ -79,7 +84,36 @@ void banker::display_data()
 
 
 bool banker::is_it_safe(){
+    int myWork[Resources];
+    bool finish[Customers];
+    string sequence[Customers];
+    int num = 0;
     
+    stringstream convert;
+    
+    //flags for if its safe, if need[i] is lesser than available
+    bool safe_flag=true;
+    bool need_flag=true;
+    int loopNumber=0;
+    
+    //copying available to Mywork
+    for(int i=0;i<Resources;i++)
+        myWork[i]=available[i];
+    
+    // Initialise all the finish flag to false
+    for(int i=0;i<Customers;i++)
+        finish[i]=false;
+    
+    for(int i=0;i<Customers;i++)
+        sequence[i]="No Process";
+    
+    while (loopNumber<10) {
+        
+        for(int i=0; i < Resources;i++)
+        {
+            need_flag=true;
+        }
+    } //end while
     
     return 0;
 }
