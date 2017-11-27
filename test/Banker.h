@@ -21,6 +21,10 @@ using namespace std;
 #define Resources 3
 
 
+pthread_t mycustomer[Customers];
+pthread_mutex_t My_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t update_t = PTHREAD_MUTEX_INITIALIZER;
+
 class banker{
     
     
@@ -29,11 +33,12 @@ public:
     void display_data();
     bool is_it_safe();
     void Update_data();
+    void do_the_stuff();
     int requested(int, int[]); //request resources
     int released(int, int[]);  //released resources
     
-    void set_request_resource(int);
-    void set_release_resource(int);
+    void set_req_res(int);
+    void set_rel_res(int);
     int* rel(int);
     
 
@@ -60,14 +65,17 @@ protected:
 
 
 
-struct request{
+struct request_res{
 public:
-    int Customer_id;
-    int request[3];
-    int rel[3];
-    
-    
+    int _id_Customer;
+    int _req[3];  //request
+    int _rele[3]; // release
 };
+
+struct request_res r[Customers];
+
+void* _resource_request_send(void*);
+void* _release_request_send(void*);
 
 #endif /* Banker_hpp */
 

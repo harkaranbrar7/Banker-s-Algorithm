@@ -6,11 +6,11 @@
 //  Copyright © 2017 Harkaran Brar. All rights reserved.
 //
 
-#include "Banker.hpp"
+//#include "Banker.h"
 
 
-int main()
-{
-    banker mybanker;
+//int main()
+//{
+    //banker mybanker;
     
-}
+//}

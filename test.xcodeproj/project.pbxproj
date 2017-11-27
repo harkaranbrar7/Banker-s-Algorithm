@@ -26,7 +26,7 @@
 /* Begin PBXFileReference section */
 		A767CB081FCA491B00E1B9AF /* test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = test; sourceTree = BUILT_PRODUCTS_DIR; };
 		A767CB151FCA4D5F00E1B9AF /* Banker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Banker.cpp; sourceTree = "<group>"; };
-		A767CB161FCA4D5F00E1B9AF /* Banker.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Banker.hpp; sourceTree = "<group>"; };
+		A767CB161FCA4D5F00E1B9AF /* Banker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Banker.h; sourceTree = "<group>"; };
 		A767CB181FCA4DB200E1B9AF /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,7 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				A767CB151FCA4D5F00E1B9AF /* Banker.cpp */,
-				A767CB161FCA4D5F00E1B9AF /* Banker.hpp */,
+				A767CB161FCA4D5F00E1B9AF /* Banker.h */,
 				A767CB181FCA4DB200E1B9AF /* main.cpp */,
 			);
 			path = test;
@@ -254,6 +254,7 @@
 				A767CB111FCA491B00E1B9AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

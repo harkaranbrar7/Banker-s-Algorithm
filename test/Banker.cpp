@@ -6,25 +6,50 @@
 //  Copyright © 2017 Harkaran Brar. All rights reserved.
 //
 
-#include "Banker.hpp"
+#include "Banker.h"
 
+
+
+int main(){
+  banker mybanker;
+    
+    
+}
 
 banker::banker(){
-    int allot, i ;
-    int Counter = 10;
-    
     cout<<"Initial state";
     Update_data();
     display_data();
     is_it_safe();
+    do_the_stuff();
     
     
-    while (Counter>0)
-    {
+}
+
+void banker::do_the_stuff()
+{
+    int random;
+    int allot;
+    int counter = 0;
+    
+    
+    while(counter<10){
+        random =rand()%4;
+        {
+              set_req_res(random);
+            //allot = pthread_create(&mycustomer[random],NULL,)
+            
+            
+        }
         
     }
-
     
+}
+
+
+void banker::set_req_res(int){
+    
+    cout<<"WTFFFFFFFF"<<endl;
 }
 
 void banker::Update_data(){
@@ -92,27 +117,27 @@ void banker::display_data()
 
 bool banker::is_it_safe(){
  
+   
+    bool finish[Customers] = {0};   // Bool set to false for all process
+    int safe_sequence[Customers];   // for storing safe sequence
+    int work[Resources];            // for coping the available to work
+    int count = 0;
     
-    // Mark all processes as infinish
-    bool finish[Customers] = {0};
     
-    // To store safe sequence
-    int safeSeq[Customers];
-    
-    // Make a copy of available resources
-    int work[Resources];
     for (int i = 0; i < Resources ; i++)
+    {
         work[i] = available[i];
+    }
     
     // While all processes are not finished
     // or system is not in safe state.
-    int count = 0;
+    
     while (count < Customers)
     {
         // Find a process which is not finish and
         // whose needs can be satisfied with current
         // work[] resources.
-        bool found = false;
+        bool safe = false;
         for (int p = 0; p < Customers; p++)
         {
             // First check if a process is finished,
@@ -137,19 +162,19 @@ bool banker::is_it_safe(){
                         work[k] += alloc[p][k];
                     
                     // Add this process to safe sequence.
-                    safeSeq[count++] = p;
+                    safe_sequence[count++] = p;
                     
                     // Mark this p as finished
                     finish[p] = 1;
                     
-                    found = true;
+                    safe = true;
                 }
             }
         }
         
         // If we could not find a next process in safe
         // sequence.
-        if (found == false)
+        if (safe == false)
         {
             cout << "System is not in safe state";
             return false;
@@ -158,10 +183,13 @@ bool banker::is_it_safe(){
     
     // If system is in safe state then
     // safe sequence will be as below
-    cout << "System is in safe state.\nSafe"
-    " sequence is: ";
+   // cout << "\033[1;31mSystem is in safe state.\nSafe sequence is: \033[0m\n";
+    cout << "System is in safe state.\nSafe sequence is: ";
     for (int i = 0; i < Customers ; i++)
-        cout <<"P"<< safeSeq[i] << " ";
+        cout <<"|P"<< safe_sequence[i] << "| ";
+    
+    
+    cout<<"\n\n";
     
     return true;
 
@@ -255,9 +283,11 @@ bool banker::is_it_safe(){
 
 
 
-
-
-
+void* _resource_request_send(void*)
+{
+ 
+    return 0;
+}
 
 
 
