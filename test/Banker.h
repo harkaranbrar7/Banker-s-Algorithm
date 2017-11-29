@@ -72,7 +72,7 @@ public:
     int _rele[3]; // release
 };
 
-struct request_res r[Customers];
+struct request_res res_o[Customers];
 
 void* _resource_request_send(void*);
 void* _release_request_send(void*);

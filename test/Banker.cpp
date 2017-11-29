@@ -12,12 +12,10 @@
 
 int main(){
   banker mybanker;
-    
-    
 }
 
 banker::banker(){
-    cout<<"Initial state";
+    
     Update_data();
     display_data();
     is_it_safe();
@@ -30,27 +28,57 @@ void banker::do_the_stuff()
 {
     int random;
     int allot;
-    int counter = 0;
+   // int counter;
     
-    
-    while(counter<10){
-        random =rand()%4;
+    for (int counter=0; counter<10;counter++){
+    //while(counter<10){
+    //cout<<" counter = "<<counter<<endl;
+        random = rand()%4;
         {
-              set_req_res(random);
-            //allot = pthread_create(&mycustomer[random],NULL,)
-            
-            
+            set_req_res(random);
+            allot = pthread_create(&mycustomer[random],NULL,_resource_request_send,(void *)&res_o[random]);
+
+            set_req_res(random);
+            allot = pthread_create(&mycustomer[random],NULL,_release_request_send,(void *)&res_o[random]);
+
+          // counter++;
         }
-        
+
+    }//end for
+    
+}
+
+
+void banker::set_req_res(int custom_id){
+    
+    res_o[custom_id]._id_Customer=custom_id;
+    for(int i=0;i<Resources;i++)
+    {
+        if (needed[custom_id][i]==0) {
+            res_o[custom_id]._req[i]=0;
+        }
+        else {
+            res_o[custom_id]._req[i]=rand()%(needed[custom_id][i]+1);
+        }
     }
     
 }
 
-
-void banker::set_req_res(int){
+void banker::set_rel_res(int custom_id){
     
-    cout<<"WTFFFFFFFF"<<endl;
+    res_o[custom_id]._id_Customer=custom_id;
+    for(int i=0;i<Resources;i++)
+    {
+        if (alloc[custom_id][i]==0) {
+            res_o[custom_id]._rele[i]=0;
+        }
+        else {
+            res_o[custom_id]._rele[i]=rand()%(alloc[custom_id][i]+1);
+        }
+    }
+    
 }
+
 
 void banker::Update_data(){
     
@@ -74,8 +102,10 @@ void banker::display_data()
 {
     int i,j;
     
+    cout<<"=-= All the Matrix =-=";
+    
     cout<<"\n\n";
-    cout<<"------Maximum------";
+    cout<<"=-=-=- Maximum -=-=-=";
     for(i=0;i<Customers;i++)
     {
         cout<<"\n";
@@ -84,7 +114,7 @@ void banker::display_data()
     }
     
     cout<<"\n\n";
-    cout<<"------Allocated------";
+    cout<<"=-=-=- Allocated -=-=-=";
     for(i=0;i<Customers;i++)
     {
         cout<<"\n";
@@ -94,7 +124,7 @@ void banker::display_data()
     
     
     cout<<"\n\n";
-    cout<<"------Needed------";
+    cout<<"=-=-=- Needed -=-=-=";
     for(i=0;i<Customers;i++)
     {
         cout<<"\n";
@@ -103,7 +133,7 @@ void banker::display_data()
     }
     
     cout<<"\n\n";
-    cout<<"------Available------\n";
+    cout<<"=-=-=- Available -=-=-=\n";
     
     for(i=0;i<Resources;i++)
         cout<<"   |"<<available[i]<<"|";
@@ -129,60 +159,51 @@ bool banker::is_it_safe(){
         work[i] = available[i];
     }
     
-    // While all processes are not finished
-    // or system is not in safe state.
     
     while (count < Customers)
     {
-        // Find a process which is not finish and
-        // whose needs can be satisfied with current
-        // work[] resources.
+     
         bool safe = false;
-        for (int p = 0; p < Customers; p++)
+        int process = 0;
+        while (process < Customers)
+        //for (int process = 0; process < Customers; process++)
         {
-            // First check if a process is finished,
-            // if no, go for next condition
-            if (finish[p] == 0)
+            
+
+            if (finish[process] == 0)
             {
-                // Check if for all resources of
-                // current P need is less
-                // than work
-                int j;
-                for (j = 0; j < Resources; j++)
-                    if (needed[p][j] > work[j])
+        
+                int jCounter;
+                for (jCounter = 0; jCounter < Resources; jCounter++)
+                    if (needed[process][jCounter] > work[jCounter])
                         break;
-                
-                // If all needs of p were satisfied.
-                if (j == Resources)
+            
+                if (jCounter == Resources)
                 {
-                    // Add the allocated resources of
-                    // current P to the available/work
-                    // resources i.e.free the resources
+                  
                     for (int k = 0 ; k < Resources ; k++)
-                        work[k] += alloc[p][k];
+                        work[k] += alloc[process][k];
                     
-                    // Add this process to safe sequence.
-                    safe_sequence[count++] = p;
+                
+                    safe_sequence[count++] = process;
                     
-                    // Mark this p as finished
-                    finish[p] = 1;
+
+                    finish[process] = 1;
                     
                     safe = true;
                 }
             }
+            process++;
         }
         
-        // If we could not find a next process in safe
-        // sequence.
+
         if (safe == false)
         {
             cout << "System is not in safe state";
-            return false;
+            return safe;
         }
     }
-    
-    // If system is in safe state then
-    // safe sequence will be as below
+
    // cout << "\033[1;31mSystem is in safe state.\nSafe sequence is: \033[0m\n";
     cout << "System is in safe state.\nSafe sequence is: ";
     for (int i = 0; i < Customers ; i++)
@@ -286,14 +307,17 @@ bool banker::is_it_safe(){
 void* _resource_request_send(void*)
 {
  
+    cout<<" resource requested"<<endl;
     return 0;
 }
 
 
-
-
-
-
+void* _release_request_send(void*)
+{
+    
+    cout<<" resource released "<<endl;
+    return 0;
+}
 
 
 
