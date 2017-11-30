@@ -34,7 +34,8 @@ public:
     bool is_it_safe();
     void Update_data();
     void do_the_stuff();
-    int requested(int, int[]); //request resources
+    
+    int requested(int,int[]); // request resource
     int released(int, int[]);  //released resources
     
     void set_req_res(int);
@@ -62,6 +63,8 @@ protected:
     
     
 };
+
+banker m;
 
 
 

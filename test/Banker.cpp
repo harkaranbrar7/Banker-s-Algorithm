@@ -9,9 +9,10 @@
 #include "Banker.h"
 
 
+//banker mI;
 
 int main(){
-  banker mybanker;
+  banker mybanker;    
 }
 
 banker::banker(){
@@ -301,24 +302,70 @@ bool banker::is_it_safe(){
    }
 
 
-
-
-
-void* _resource_request_send(void*)
-{
- 
-    cout<<" resource requested"<<endl;
+int banker::requested(int custom_id, int requested[]){
+    
+    
+    cout<<"yo im here in resource requrst"<<endl;
+    
     return 0;
 }
 
+int banker:: released(int custom_id, int requested[]){
+    
+    
+     cout<<"yo im here in resource release"<<endl;
+    return 0;
 
-void* _release_request_send(void*)
+}
+
+
+void* _resource_request_send(void* mythread)
+{
+    int custom_id;
+    bool mybool;
+    int req_res[Resources];
+    struct request_res *custreq;
+    
+    pthread_mutex_lock(&My_mutex);  // lock
+   
+    custreq = (struct request_res*) mythread;
+    custom_id = custreq->_id_Customer;
+    
+    for(int i=0;i<3;i++)
+    {
+        req_res[i]=custreq->_req[i];
+    }
+    
+    mybool = m.requested(custom_id, req_res);
+       //mybool = (custom_id, req_res);
+    pthread_mutex_unlock( &My_mutex );   //unlock
+    return NULL;
+}
+
+
+void* _release_request_send(void* mythread)
 {
     
-    cout<<" resource released "<<endl;
-    return 0;
+    int custom_id;
+    bool mybool;
+    int req_res[Resources];
+    struct request_res *custreq;
+    
+    pthread_mutex_lock(&My_mutex);  // lock
+    
+    custreq = (struct request_res*) mythread;
+    custom_id = custreq->_id_Customer;
+    
+    for(int i=0;i<3;i++)
+    {
+        req_res[i]=custreq->_rele[i];
+    }
+    
+    mybool = m.released(custom_id, req_res);
+    //mybool = (custom_id, req_res);
+    pthread_mutex_unlock( &My_mutex );   //unlock
+    return NULL;
 }
-
 
 
 
