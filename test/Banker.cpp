@@ -12,7 +12,7 @@
 //banker mI;
 
 int main(){
-  banker mybanker;    
+  //banker mybanker;
 }
 
 banker::banker(){
@@ -29,12 +29,10 @@ void banker::do_the_stuff()
 {
     int random;
     int allot;
-   // int counter;
+    int random_resouces = 4;
     
     for (int counter=0; counter<10;counter++){
-    //while(counter<10){
-    //cout<<" counter = "<<counter<<endl;
-        random = rand()%4;
+        random = rand()%random_resouces;
         {
             set_req_res(random);
             allot = pthread_create(&mycustomer[random],NULL,_resource_request_send,(void *)&res_o[random]);
@@ -42,7 +40,6 @@ void banker::do_the_stuff()
             set_req_res(random);
             allot = pthread_create(&mycustomer[random],NULL,_release_request_send,(void *)&res_o[random]);
 
-          // counter++;
         }
 
     }//end for
@@ -167,7 +164,6 @@ bool banker::is_it_safe(){
         bool safe = false;
         int process = 0;
         while (process < Customers)
-        //for (int process = 0; process < Customers; process++)
         {
             
 
@@ -215,106 +211,127 @@ bool banker::is_it_safe(){
     
     return true;
 
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
-    /*
-    int myWork[Resources];
-    bool finish[Customers];
-    string sequence[Customers];
-    int num = 0;
-    
-    stringstream convert;
-    
-    //flags for if its safe, if need[i] is lesser than available
-    bool safe_flag=true;
-    bool need_flag=true;
-    int loopNumber=0;
-    
-    //copying available to Mywork
-    for(int i=0;i<Resources;i++)
-        myWork[i]=available[i];
-    
-    // Initialise all the finish flag to false
-    for(int i=0;i<Customers;i++)
-        finish[i]=false;
-    
-    for(int i=0;i<Customers;i++)
-        sequence[i]="No Process";
-    
-    while (loopNumber<10) {
-        
-        for(int i=0; i < Customers;i++)
-        {
-            need_flag=true;
-            if (finish[i]==false)
-            {
-                for(int j=0; j<Resources;j++)
-                {
-                    if(needed[i][j]>myWork[j])
-                    {
-                        need_flag = false;
-                        break;
-                    } //end if
-                }//end for
-                while(need_flag == true && finish[i]==false)
-                {
-                    for(int j=0; j<Resources; j++)
-                    {
-                        myWork[j]=myWork[j]+alloc[i][j];
-                    } //end for
-                    
-                    finish[i]=true;
-                    convert<<i;
-                    sequence[num++]="Process"+ convert.str();
-                    convert.str("");
-                }//end while
-            }//end if
-        } //end for
-        loopNumber++;
-    } //end while
-    
-    for(int i=0;i<Customers;i++)
-        if(finish[i]==false)
-            safe_flag=false;
-    
-    
-    if(safe_flag)
-    {
-        cout<<"The request is safe and is granted";
-        cout<<"\nSafety Sequence is ";
-        for(int i=0;i<Customers;i++)
-            cout<<sequence[i]<<"->";
-    }
-    else
-        cout<<"The request denied\n";
-    
-    return safe_flag;
-   */
    }
 
 
 int banker::requested(int custom_id, int requested[]){
     
+    bool my_Need_check = true;
+    bool availab_check = true;
+    bool allocate_check = false;
+    cout<<"\n\n"<<"Processing request of customer "<<custom_id;
+    cout<<"\nCustomer "<<custom_id<<" has requested for "<<res_o[custom_id]._req[0]<<" "<<res_o[custom_id]._req[1]<<" "<<res_o[custom_id]._req[2]<<endl;
     
-    cout<<"yo im here in resource requrst"<<endl;
+    int jcounter = 0;
+    while(jcounter < Resources)
+    {
+        switch (requested[jcounter]>needed[custom_id][jcounter]) {
+            case 1:
+                cerr<<"\nIllegal resources requested";
+                my_Need_check=false;
+                break;
+                
+            default:
+                break;
+        }
+        jcounter++;
+    }
     
-    return 0;
+    switch (my_Need_check == true) {
+        case 1:
+            for (int i =0; i<Resources; i++) {
+                switch (requested[i]>available[i]) {
+                    case 1:
+                        availab_check = false;
+                        break;
+                        
+                    default:
+                        break;
+                } // inside switch
+            }
+            break;
+            
+        default:
+            break;
+    }
+    
+    //Pretending to allocate resources when
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    for(int i=0;i<Resources;i++)
+    {
+        //available[i]-=requested[i];
+        available[i] = available[i]-requested[i];
+        alloc[custom_id][i] = alloc[custom_id][i] + requested[i];
+        needed[custom_id][i] = needed[custom_id][i] - requested[i];
+    }
+    
+//    for(int i=0;i<3;i++){
+//    cout<<available[i]<<endl;
+//
+//    }
+    
+    allocate_check = is_it_safe();
+    //cout<<allocate_check<<endl;
+    
+    switch (!allocate_check) {
+        case 1:
+            for(int i=0;i<Resources;i++)
+        {
+            //available[i]-=requested[i];
+            available[i] = available[i] + requested[i];
+            alloc[custom_id][i] = alloc[custom_id][i] - requested[i];
+            needed[custom_id][i] = needed[custom_id][i] + requested[i];
+        }
+            break;
+            
+        default:
+            break;
+    }
+    
+    return allocate_check;
 }
 
-int banker:: released(int custom_id, int requested[]){
+int banker:: released(int custom_id, int released[]){
     
+    bool release_check = true;
+   cout<<"\n\n"<<" Processing release request of customer "<< custom_id;
+    cout<<"\n Customer "<<custom_id<<" has requested to release for "<<released[0]<<" "<<released[1]<<" "<<released[2]<<endl;
     
-     cout<<"yo im here in resource release"<<endl;
-    return 0;
+    for (int i=0;i<Resources;i++)
+    {
+        switch (released[i]>alloc[custom_id][i]) {
+            case 1:
+                 release_check=false;
+                break;
+                
+            default:
+                break;
+        }
+           
+    }
+    
+    switch (release_check == false) {
+        case 1:
+            cerr<<"\nRelease request exceed allocated";
+            return release_check;
+            break;
+            
+        default:
+            break;
+    }
+
+    
+    for(int i=0;i<Resources;i++)
+    {
+        //available[i]-=requested[i];
+        available[i] = available[i] + released[i];
+        alloc[custom_id][i] = alloc[custom_id][i] - released[i];
+        needed[custom_id][i] = needed[custom_id][i] + released[i];
+    }
+    cout<<"Resources Released! \n";
+    //pthread_mutex_unlock( &update );
+    return release_check;
 
 }
 
@@ -337,7 +354,6 @@ void* _resource_request_send(void* mythread)
     }
     
     mybool = m.requested(custom_id, req_res);
-       //mybool = (custom_id, req_res);
     pthread_mutex_unlock( &My_mutex );   //unlock
     return NULL;
 }
@@ -352,7 +368,6 @@ void* _release_request_send(void* mythread)
     struct request_res *custreq;
     
     pthread_mutex_lock(&My_mutex);  // lock
-    
     custreq = (struct request_res*) mythread;
     custom_id = custreq->_id_Customer;
     
@@ -360,9 +375,8 @@ void* _release_request_send(void* mythread)
     {
         req_res[i]=custreq->_rele[i];
     }
-    
+
     mybool = m.released(custom_id, req_res);
-    //mybool = (custom_id, req_res);
     pthread_mutex_unlock( &My_mutex );   //unlock
     return NULL;
 }
