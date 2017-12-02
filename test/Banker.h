@@ -1,19 +1,16 @@
 //
-//  Banker.hpp
-//  test
+//  Banker.h
 //
-//  Created by Harkaran Brar on 11/25/17.
-//  Copyright © 2017 Harkaran Brar. All rights reserved.
+//
+//  Created by Harkaranjeet Singh on 11/22/17.
+//  Copyright © 2017 Harkaranjeet Singh. All rights reserved.
 //
 
 #ifndef Banker_hpp
 #define Banker_hpp
 
-#include <stdio.h>
 #include <iostream>
-#include <string>
 #include <pthread.h>
-#include <sstream>
 using namespace std;
 
 
@@ -25,24 +22,35 @@ pthread_t mycustomer[Customers];
 pthread_mutex_t My_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t update_t = PTHREAD_MUTEX_INITIALIZER;
 
+void* _resource_request_send(void*);
+void* _release_request_send(void*);
+
+
+struct request_res{
+public:
+    int _id_Customer;
+    int _req[Resources];  //request
+    int _rele[Resources]; // release
+    
+private:
+    
+protected:
+};
+
+struct request_res res_o[Customers];
+
 class banker{
-    
-    
 public:
     banker();
     void display_data();
     bool is_it_safe();
     void Update_data();
     void do_the_stuff();
-    
     int requested(int,int[]); // request resource
     int released(int, int[]);  //released resources
-    
     void set_req_res(int);
     void set_rel_res(int);
-    int* rel(int);
     
-
 private:
     int available[Resources] = {10,5,7};        //Available Resources
     int max[Customers][Resources] = {{7, 5, 3},
@@ -59,26 +67,8 @@ private:
     int needed [Customers][Resources];
     
 protected:
-    
-    
-    
+
 };
-
-banker m;
-
-
-
-struct request_res{
-public:
-    int _id_Customer;
-    int _req[3];  //request
-    int _rele[3]; // release
-};
-
-struct request_res res_o[Customers];
-
-void* _resource_request_send(void*);
-void* _release_request_send(void*);
 
 #endif /* Banker_hpp */
 
