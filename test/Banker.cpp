@@ -237,7 +237,7 @@ int banker::requested(int custom_id, int requested[]){
     bool availab_check = true;
     bool allocate_check = false;
     //cerr<<"\n\n"<<" Process request ID "<<custom_id<<endl;
-    cerr<<" ID "<<custom_id<<" has requested resources for |"<<res_o[custom_id]._req[0]<<"| |"<<res_o[custom_id]._req[1]<<"| |"<<res_o[custom_id]._req[2]<<"|"<<endl;
+    cerr<<" ID "<<custom_id<<" has requested resources|"<<res_o[custom_id]._req[0]<<"| |"<<res_o[custom_id]._req[1]<<"| |"<<res_o[custom_id]._req[2]<<"|"<<endl;
     
     int jcounter = 0;
     while(jcounter < Resources)
@@ -299,7 +299,7 @@ int banker:: released(int custom_id, int rel_eased[]){
     
     bool release_check = true;
     // cerr<<" Process release ID "<< custom_id<<endl;
-    cerr<<" ID "<<custom_id<<" has requested resources to release for |"<<rel_eased[0]<<"| |"<<rel_eased[1]<<"| |"<<rel_eased[2]<<"|"<<endl;
+    cerr<<" ID "<<custom_id<<" has requested resources to release|"<<rel_eased[0]<<"| |"<<rel_eased[1]<<"| |"<<rel_eased[2]<<"|"<<endl;
     
     cerr<<"\n\n";
     
