@@ -28,7 +28,7 @@ banker::banker(){
 void banker::do_the_stuff()
 {
     int random;
-    int random_resouces = 7;
+    int random_resouces = 4;
     bool times = true;
     
     while(times){
@@ -219,7 +219,7 @@ bool banker::is_it_safe(){
             return safe;
         }
     }
-    cerr << "\033[1;32m  System is in safe state.\n Safe sequence is:  \033[0m\n";
+    cerr << "\033[1;32m System is in safe state.\n Safe sequence is:  \033[0m\n";
     for (int i = 0; i < Customers ; i++)
         cerr <<"|P"<< safe_sequence[i] << "| ";
     
